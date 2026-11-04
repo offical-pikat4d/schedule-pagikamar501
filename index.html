@@ -6,7 +6,7 @@
 <title>Jadwal Kamar 501</title>
 <meta name="theme-color" content="#2563eb">
 <meta name="description" content="Jadwal Piket & Cuci Kamar 501 - Shift Pagi">
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -71,14 +71,15 @@ main{max-width:760px;margin:-48px auto 0;padding:0 14px 40px}
 .rl ol,.rl ul{padding:12px 16px 12px 34px;line-height:1.7;font-size:.92rem}.rl p.note{padding:12px 14px 0}.rl ul{padding-top:6px}
 .rl table{width:100%;border-collapse:collapse;font-size:.9rem}.rl th{text-align:left;background:#f8fafc;padding:9px 14px}.rl td{padding:9px 14px;border-top:1px solid var(--line)}.rl td:first-child{font-weight:700;white-space:nowrap}
 .lg{display:flex;gap:14px;font-size:.78rem;font-weight:600;margin-bottom:10px;color:var(--mut)}.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
-.tw{overflow-x:auto;border-radius:16px;border:1px solid var(--line)}
-.jt{border-collapse:separate;border-spacing:0;width:100%;min-width:560px;font-size:.84rem;text-align:center}
-.jt th{padding:10px 8px;font-size:.76rem;color:#fff}
-.jt th.c{background:var(--cc)}.jt th.p{background:var(--pk)}.jt th.n{background:var(--ink);text-align:left;position:sticky;left:0;z-index:1}
-.jt td{padding:9px 6px;border-top:1px solid var(--line)}
-.jt tr:nth-child(even) td{background:#f8fafc}
-.jt td.n{position:sticky;left:0;text-align:left;font-weight:700;background:#fff;white-space:nowrap;border-right:1px solid var(--line)}
-.jt tr:nth-child(even) td.n{background:#f8fafc}
+.tw{border-radius:16px;border:1px solid var(--line);overflow:hidden}
+.jt{border-collapse:collapse;width:100%;table-layout:fixed;font-size:.82rem;text-align:center}
+.jt th{padding:10px 2px;font-size:.74rem;color:#fff;background:var(--ink)}
+.jt th.n{width:21%;text-align:left;padding-left:10px}
+.jt td{padding:8px 2px;border-top:1px solid var(--line)}
+.jt td.n{text-align:left;padding-left:10px;font-weight:700;font-size:.78rem;line-height:1.25}
+.jt td.n small{font-weight:600;font-size:.66rem;opacity:.8}
+.jt td.n.c{background:var(--cc2);color:#1e40af}.jt td.n.p{background:var(--pk2);color:#9a3412}
+.jt tr:nth-child(5) td{border-top:3px solid var(--line)}
 .av{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;color:#fff;font-size:.72rem;margin-right:8px}
 .ch{display:inline-block;padding:4px 9px;border-radius:10px;font-weight:700;font-size:.78rem}
 .ch.c{background:var(--cc2);color:#1e40af}.ch.p{background:var(--pk2);color:#9a3412}.ch.t{outline:2px solid #facc15;box-shadow:0 0 0 3px #fef9c3}
@@ -115,7 +116,7 @@ main{max-width:760px;margin:-48px auto 0;padding:0 14px 40px}
     <div class="mnav"><button id="prev">‹ Sebelumnya</button><strong id="mt"></strong><button id="next">Berikutnya ›</button></div>
     <div class="lg"><span><i style="background:var(--cc)"></i>Cuci</span><span><i style="background:var(--pk)"></i>Piket</span><span><i style="background:#facc15"></i>Hari ini</span></div>
     <div class="tw"><table class="jt" id="jt"></table></div>
-    <p class="note" style="margin-top:8px">Geser tabel ke samping jika layar sempit.</p>
+    <p class="note" style="margin-top:8px">Cuci: 1x tiap minggu per orang. Piket: 2x per bulan per orang.</p>
   </section>
 
   <section class="card">
@@ -187,11 +188,10 @@ function renderMembers(){
 function renderTable(){
   const y=view.getFullYear(),m=view.getMonth(),now=new Date(),isNow=now.getFullYear()===y&&now.getMonth()===m,s=build(y,m),PC=["#f43f5e","#8b5cf6","#06b6d4","#10b981"];
   const chip=(x,c)=>x?`<span class="ch ${c}${isNow&&x.day===now.getDate()?" t":""}">${x.day}<small>${dow(y,m,x.day).slice(0,3)}</small></span>`:"-";
-  let h='<tr><th class="n">Nama</th>'+[1,2,3,4].map(i=>`<th class="c">Cuci M${i}</th>`).join("")+'<th class="p">Piket 1</th><th class="p">Piket 2</th></tr>';
-  NAMES.forEach((n,i)=>{
-    const c=s.filter(x=>x.who===n&&x.type==="cuci"),p=s.filter(x=>x.who===n&&x.type==="piket");
-    h+=`<tr><td class="n"><span class="av" style="background:${PC[i]}">${n[0]}</span>${n}</td>`+[0,1,2,3].map(k=>`<td>${chip(c[k],"c")}</td>`).join("")+`<td>${chip(p[0],"p")}</td><td>${chip(p[1],"p")}</td></tr>`;
-  });
+  const cu=NAMES.map(n=>s.filter(x=>x.who===n&&x.type==="cuci")),pk=NAMES.map(n=>s.filter(x=>x.who===n&&x.type==="piket"));
+  let h='<tr><th class="n">Giliran</th>'+NAMES.map((n,i)=>`<th style="background:${PC[i]}">${n.split(" ")[0]}</th>`).join("")+'</tr>';
+  for(let k=0;k<4;k++)h+=`<tr><td class="n c">🧺 Cuci<br><small>Minggu ${k+1}</small></td>`+NAMES.map((n,i)=>`<td>${chip(cu[i][k],"c")}</td>`).join("")+"</tr>";
+  for(let k=0;k<2;k++)h+=`<tr><td class="n p">🧹 Piket<br><small>Ke-${k+1}</small></td>`+NAMES.map((n,i)=>`<td>${chip(pk[i][k],"p")}</td>`).join("")+"</tr>";
   $("jt").innerHTML=h;
 }
 function renderList(){
@@ -217,7 +217,7 @@ if(!standalone){inst.style.display="block";$("ib").style.display="flex"}
 const hide=()=>{inst.style.display="none";$("ib").style.display="none"};
 inst.onclick=$("ibb").onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;hide()}else sheet.classList.add("show")};
 window.addEventListener("appinstalled",hide);
-if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js"));
 </script>
 </body>
 </html>
