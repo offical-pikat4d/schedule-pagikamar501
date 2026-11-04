@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jadwal Kamar 501</title>
+<meta name="theme-color" content="#2563eb">
+<meta name="description" content="Jadwal Piket & Cuci Kamar 501 - Shift Pagi">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kamar 501">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{--bg:#eef4ff;--card:#fff;--ink:#14213d;--mut:#64748b;--line:#e2e8f0;--pk:#f97316;--pk2:#fff1e6;--cc:#2563eb;--cc2:#e6efff;--r:20px}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:env(safe-area-inset-bottom)}
+.hero{background:linear-gradient(135deg,#2563eb,#06b6d4 60%,#22c55e);color:#fff;padding:calc(env(safe-area-inset-top) + 18px) 18px 70px;border-radius:0 0 32px 32px}
+.top{display:flex;align-items:center;gap:12px}
+.top svg{width:52px;height:52px;flex:none;filter:drop-shadow(0 3px 6px #0003)}
+.top h1{font-size:1.35rem;line-height:1.1}.top p{opacity:.9;font-size:.85rem}
+#inst{margin-left:auto;border:0;background:#fff;color:var(--cc);font-weight:700;border-radius:99px;padding:9px 14px;font-size:.8rem;display:none}
+.clock{margin-top:18px;font-size:2.4rem;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.date{opacity:.95}
+main{max-width:760px;margin:-48px auto 0;padding:0 14px 40px}
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:0 6px 20px #1e3a8a1a;margin-bottom:14px}
+.card h2{font-size:1.05rem;margin-bottom:10px}
+.today{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{border-radius:16px;padding:14px;min-height:96px}
+.box small{font-weight:700;display:flex;align-items:center;gap:6px}
+.box b{display:block;font-size:1.25rem;margin-top:6px}
+.box span{font-size:.8rem;color:var(--mut)}
+.pk{background:var(--pk2);color:#9a3412}.cc{background:var(--cc2);color:#1e40af}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px}
+.tabs button,.mnav button{border:0;background:#f1f5f9;color:var(--ink);padding:9px 14px;border-radius:99px;font-weight:600;font-size:.85rem;white-space:nowrap}
+.tabs button.on{background:var(--ink);color:#fff}
+.mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mnav strong{font-size:1.05rem}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.d{width:50px;text-align:center;border-radius:14px;padding:6px 0;flex:none}
+.d b{display:block;font-size:1.25rem;line-height:1}.d i{font-style:normal;font-size:.68rem;font-weight:700}
+.row.pk .d{background:var(--pk);color:#fff}.row.cc .d{background:var(--cc);color:#fff}
+.row{background:none}
+.who{flex:1}.who b{display:block}.who span{font-size:.8rem;color:var(--mut)}
+.tag{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:99px}
+.row.pk .tag{background:var(--pk2);color:#9a3412}.row.cc .tag{background:var(--cc2);color:#1e40af}
+.row.now{background:#fefce8;border-radius:14px;padding-left:8px;padding-right:8px}
+.row.past{opacity:.45}
+.members{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.m{border-radius:16px;padding:12px;color:#fff}
+.m:nth-child(1){background:linear-gradient(135deg,#f43f5e,#fb923c)}.m:nth-child(2){background:linear-gradient(135deg,#8b5cf6,#6366f1)}
+.m:nth-child(3){background:linear-gradient(135deg,#06b6d4,#3b82f6)}.m:nth-child(4){background:linear-gradient(135deg,#10b981,#84cc16)}
+.m b{font-size:1.02rem}.m p{font-size:.78rem;margin-top:6px;opacity:.95;line-height:1.5}
+.note{font-size:.85rem;color:var(--mut);line-height:1.6}
+.note li{margin-left:18px}
+.sheet{display:none;position:fixed;inset:0;background:#0008;z-index:9;align-items:flex-end}
+.sheet.show{display:flex}.sheet div{background:#fff;border-radius:24px 24px 0 0;padding:22px;width:100%;max-width:520px;margin:auto auto 0;line-height:1.7}
+.sheet button{margin-top:12px;width:100%;border:0;background:var(--cc);color:#fff;padding:12px;border-radius:14px;font-weight:700}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="top">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="4" width="52" height="56" rx="12" fill="#fff"/><rect x="6" y="4" width="52" height="16" rx="12" fill="#e0f2fe"/><circle cx="16" cy="12" r="3" fill="#f97316"/><circle cx="25" cy="12" r="3" fill="#22c55e"/><rect x="36" y="9" width="15" height="6" rx="3" fill="#94a3b8"/><circle cx="32" cy="39" r="16" fill="#2563eb"/><circle cx="32" cy="39" r="11" fill="#7dd3fc"/><path d="M22 39q5-6 10 0t10 0" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+    <div><h1>Jadwal Kamar 501</h1><p>Piket &amp; Cuci · Shift Pagi</p></div>
+    <button id="inst">Instal</button>
+  </div>
+  <div class="clock" id="clock">--:--:--</div>
+  <div class="date" id="date"></div>
+</header>
+<main>
+  <section class="card">
+    <h2>Hari ini</h2>
+    <div class="today">
+      <div class="box pk"><small>🧹 PIKET</small><b id="tp">-</b><span id="tpn"></span></div>
+      <div class="box cc"><small>🧺 CUCI</small><b id="tc">-</b><span id="tcn"></span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Anggota Kamar 501</h2>
+    <div class="members" id="members"></div>
+  </section>
+
+  <section class="card">
+    <div class="mnav"><button id="prev">‹ Sebelumnya</button><strong id="mt"></strong><button id="next">Berikutnya ›</button></div>
+    <div class="tabs" id="tabs"></div>
+    <div id="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Peraturan</h2>
+    <ul class="note">
+      <li>Setiap orang kebagian <b>2x piket</b> dan <b>2x cuci</b> dalam sebulan.</li>
+      <li>Hari dibuat acak otomatis tiap bulan dan tidak berubah saat dibuka ulang.</li>
+      <li>Jika berhalangan, tukar hari dengan anggota lain dan kabari kamar.</li>
+    </ul>
+  </section>
+</main>
+
+<div class="sheet" id="sheet"><div><b>Pasang di iPhone</b><br>1. Buka lewat <b>Safari</b>.<br>2. Ketuk tombol <b>Share</b> (kotak + panah).<br>3. Pilih <b>Tambahkan ke Layar Utama</b>.<button onclick="sheet.classList.remove('show')">Mengerti</button></div></div>
+
+<script>
+const NAMES=["AGUS S","BAIM","DANA VAN","MARKUS CHAN"];
+const DAYS=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const MON=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const $=id=>document.getElementById(id);
+let view=new Date();view=new Date(view.getFullYear(),view.getMonth(),1);let filter="all";
+
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffle(a,r){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+// 4 orang x 2 putaran, tidak ada orang yang sama berturut-turut
+function order(r){let a=shuffle(NAMES,r),b;do{b=shuffle(NAMES,r)}while(b[0]===a[3]);return a.concat(b)}
+
+function build(y,m){
+  const n=new Date(y,m+1,0).getDate(),r=rng(y*100+m+501),p=order(r),c=order(r),out=[];
+  for(let i=0;i<8;i++){
+    out.push({day:Math.round(i*n/8)+1,type:"piket",who:p[i]});
+    out.push({day:Math.min(n,Math.round((i+.5)*n/8)+1),type:"cuci",who:c[i]});
+  }
+  return out.sort((a,b)=>a.day-b.day||(a.type>b.type?1:-1));
+}
+const dow=(y,m,d)=>DAYS[new Date(y,m,d).getDay()];
+
+function tick(){
+  const t=new Date();
+  $("clock").textContent=t.toLocaleTimeString("id-ID",{hour12:false}).replace(/\./g,":");
+  $("date").textContent=`${DAYS[t.getDay()]}, ${t.getDate()} ${MON[t.getMonth()]} ${t.getFullYear()}`;
+}
+function renderToday(){
+  const t=new Date(),s=build(t.getFullYear(),t.getMonth()).filter(x=>x.day===t.getDate());
+  const p=s.find(x=>x.type==="piket"),c=s.find(x=>x.type==="cuci");
+  $("tp").textContent=p?p.who:"Libur";$("tpn").textContent=p?"Bertugas piket hari ini":"Tidak ada jadwal piket";
+  $("tc").textContent=c?c.who:"Libur";$("tcn").textContent=c?"Bertugas cuci hari ini":"Tidak ada jadwal cuci";
+}
+function renderMembers(){
+  const y=view.getFullYear(),m=view.getMonth(),s=build(y,m);
+  $("members").innerHTML=NAMES.map(n=>{
+    const f=t=>s.filter(x=>x.who===n&&x.type===t).map(x=>x.day).join(", ");
+    return `<div class="m"><b>${n}</b><p>🧹 Piket: tgl ${f("piket")}<br>🧺 Cuci: tgl ${f("cuci")}</p></div>`}).join("");
+}
+function renderList(){
+  const y=view.getFullYear(),m=view.getMonth(),now=new Date(),isNow=now.getFullYear()===y&&now.getMonth()===m;
+  $("mt").textContent=`${MON[m]} ${y}`;
+  $("tabs").innerHTML=["all",...NAMES].map(n=>`<button class="${filter===n?"on":""}" data-n="${n}">${n==="all"?"Semua":n}</button>`).join("");
+  const s=build(y,m).filter(x=>filter==="all"||x.who===filter);
+  $("list").innerHTML=s.map(x=>{
+    const cls=(x.type==="piket"?"pk":"cc")+(isNow&&x.day===now.getDate()?" now":"")+(isNow&&x.day<now.getDate()?" past":"");
+    return `<div class="row ${cls}"><div class="d"><b>${x.day}</b><i>${dow(y,m,x.day).slice(0,3).toUpperCase()}</i></div><div class="who"><b>${x.who}</b><span>${dow(y,m,x.day)}, ${x.day} ${MON[m]}</span></div><span class="tag">${x.type==="piket"?"🧹 Piket":"🧺 Cuci"}</span></div>`}).join("");
+  renderMembers();
+}
+$("tabs").onclick=e=>{if(e.target.dataset.n){filter=e.target.dataset.n;renderList()}};
+$("prev").onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()-1,1);renderList()};
+$("next").onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()+1,1);renderList()};
+tick();setInterval(tick,1000);renderToday();renderList();
+
+// Instal PWA
+let dp;const sheet=$("sheet"),inst=$("inst");
+const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=matchMedia("(display-mode:standalone)").matches||navigator.standalone;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;if(!standalone)inst.style.display="block"});
+if(ios&&!standalone)inst.style.display="block";
+inst.onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;inst.style.display="none"}else sheet.classList.add("show")};
+window.addEventListener("appinstalled",()=>inst.style.display="none");
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
+</script>
+</body>
+</html>
